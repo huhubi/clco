@@ -1,0 +1,30 @@
+name: A2_Huber
+runtime: yaml
+description: A minimal Azure Native Pulumi YAML program
+resources:
+  resourceGroup:
+    type: azure-native:resources:ResourceGroup
+    properties:
+      resourceGroupName: ${resourceGroupName}  # Use the custom resource group name from configuration
+      location: ${location}  # Use the location from configuration
+  sa:
+    type: azure-native:storage:StorageAccount
+    properties:
+      resourceGroupName: ${resourceGroup.name}
+      location: ${location}  # Use the location from configuration
+      sku:
+        name: ${skuName}  # Use the SKU from configuration
+      kind: StorageV2
+      accountName: ${storageAccountName}  # Use the storage account name from configuration
+variables:
+  storageAccountKeys:
+    fn::azure-native:storage:listStorageAccountKeys:
+      resourceGroupName: ${resourceGroup.name}
+      accountName: ${sa.name}
+config:
+  resourceGroupName: MyFirstResourceGroup  # Default resource group name
+  storageAccountName: mysfirsttorageaccount  # Default storage account name
+  skuName: Standard_LRS  # Default SKU
+  location: ukwest  # Default location
+outputs:
+  primaryStorageKey: ${storageAccountKeys.keys[0].value}
