@@ -1,0 +1,2 @@
+config:
+  azure-python-webapp:workspace_name: test123

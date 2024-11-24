@@ -2,7 +2,7 @@ import pulumi
 from pulumi_azure_native import resources, storage, web, operationalinsights
 from pulumi import AssetArchive, FileArchive, Config
 from pulumi_azure_native import insights
-resource_group = resources.ResourceGroup("resource_group", location="germanywestcentral")
+resource_group = resources.ResourceGroup("resource_group", location="eastus2")
 
 # if return code is 429, change to germanywestcentral, uksouth, eastus2 etc.
 
@@ -102,9 +102,9 @@ pulumi.export("app_insights_instrumentation_key", app_insights.instrumentation_k
 
 
 # Export outputs
-#pulumi.export("resource_group_name", resource_group.name)
+pulumi.export("resource_group_name", resource_group.name)
 pulumi.export("web_app_url", pulumi.Output.concat("http://", web_app.default_host_name))
-#pulumi.export("blob_url", blob_url)
+pulumi.export("blob_url", blob_url)
 pulumi.export("scm_web_app_url", pulumi.Output.concat("http://", web_app.default_host_name.apply(lambda name: name.replace(".azurewebsites.net", ".scm.azurewebsites.net"))))
 pulumi.export("log_tail_command", pulumi.Output.all(web_app.name, resource_group.name).apply(lambda args: f"az webapp log tail --name {args[0]} --resource-group {args[1]}"))
 
