@@ -1,0 +1,10 @@
+pulumi==3.50.0
+pulumi-azure-native==1.60.0
+azure-mgmt-resource==20.0.0
+azure-mgmt-web==5.0.0
+azure-mgmt-storage==20.0.0
+azure-identity==1.7.1
+azure-storage-blob==12.8.1
+azure-mgmt-applicationinsights==1.0.0
+requests==2.26.0
+unittest==0.0.1

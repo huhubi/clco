@@ -1,9 +1,14 @@
 import pulumi
-from pulumi_azure_native import resources, storage, web
-from pulumi import AssetArchive, FileArchive
-from pulumi_command import local
-# Create an Azure Resource Group
-resource_group = resources.ResourceGroup("resource_group", location="eastasia")
+from pulumi_azure_native import resources, storage, web, operationalinsights
+from pulumi import AssetArchive, FileArchive, Config
+from pulumi_azure_native import insights
+resource_group = resources.ResourceGroup("resource_group", location="germanywestcentral")
+
+# if return code is 429, change to germanywestcentral, uksouth, eastus2 etc.
+
+# Retrieve configuration values
+config = Config()
+workspace_name = config.require("workspace_name")
 
 # Create a Storage Account
 storage_account = storage.StorageAccount(
@@ -49,7 +54,7 @@ app_service_plan = web.AppServicePlan(
     reserved=True,
     sku=web.SkuDescriptionArgs(
         tier="Basic",
-        name="B1",  # Adjust based on requirements
+        name="F1",  # Adjust based on requirements
     ),
 )
 
@@ -66,6 +71,34 @@ web_app = web.WebApp(
         linux_fx_version="PYTHON|3.11",
     ),
 )
+subscription_id = "5bb64e70-0225-40e2-b87c-ede62684f322"
+resource_group_name = resource_group.name
+
+
+# Create a Log Analytics Workspace
+workspace = operationalinsights.Workspace(
+    "logAnalyticsWorkspace",
+    resource_group_name=resource_group.name,
+    location=resource_group.location,
+    sku=operationalinsights.WorkspaceSkuArgs(
+        name="PerGB2018"
+    ),
+    retention_in_days=30,
+)
+
+# Create an Application Insights resource
+app_insights = insights.Component(
+    "appInsights",
+    resource_group_name=resource_group.name,
+    application_type="web",
+    location=resource_group.location,
+    kind="web",
+    ingestion_mode="LogAnalytics",
+    workspace_resource_id=workspace.id,
+)
+
+# Export the instrumentation key
+pulumi.export("app_insights_instrumentation_key", app_insights.instrumentation_key)
 
 
 # Export outputs
