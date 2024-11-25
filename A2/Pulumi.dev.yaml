@@ -1,6 +1,5 @@
 config:
-  azure-native:location: ukwest
-  A2_Huber:storageAccountName: a2storagehuber
-  A2_Huber:skuName: Standard_LRS
-  A2_Huber:location: ukwest
-  A2_Huber:resourceGroupName: testtesttest
+  azure-native:location: uksouth
+  azure-resources:storageAccountName: mystorageaccounthuber
+  azure-resources:skuName: Standard_LRS
+  azure-resources:resourceGroupName: myResourceGroup
