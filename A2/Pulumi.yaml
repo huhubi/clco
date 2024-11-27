@@ -18,10 +18,9 @@ resources:
       accountName: ${storageAccountName}  # Use the storage account name from configuration
 
 #commands:
-# pulumi new azure-python (only if folder hasnt been creeated yet)
+
 # pulumi up
 #pulumi stack init devtest
-#pulumi config set azure-native:location northeurope
 #pulumi config set azure-resources:storageAccountName mystorageaccount
 #pulumi config set azure-resources:skuName Standard_LRS
 #pulumi config set azure-resources:resourceGroupName myResourceGroup

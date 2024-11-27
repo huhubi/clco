@@ -1,5 +1,5 @@
 config:
-  azure-native:location: uksouth
-  azure-resources:storageAccountName: mystorageaccounthuber
+  azure-native:location: northeurope
+  azure-resources:storageAccountName: mystorageaccount123huma
   azure-resources:skuName: Standard_LRS
-  azure-resources:resourceGroupName: myResourceGroup
+  azure-resources:resourceGroupName: myResourceGroup123huma
